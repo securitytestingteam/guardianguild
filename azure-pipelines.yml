@@ -36,17 +36,6 @@ stages:
           - checkout: self
             persistCredentials: true
             fetchDepth: 0
-  - stage: Run_Code_Analysis_And_Publish
-    displayName: 'Analyse Code And Publish'
-    jobs:
-      - job: SonarAnalyse
-        - task: SonarQubeAnalyze@5                                                  # Run Code Analysis after Checkout
-          inputs:
-            jdkversion: 'JAVA_HOME_17_x64'
-      - job: SonarPublish
-        - task: SonarQubePublish@5                                                  # Publish Quality Gate Result
-          inputs:
-            pollingTimeoutSec: '300'
   - stage: Install_Dependencies
     displayName: 'Install Node Dependencies'
     - task: Npm@1
