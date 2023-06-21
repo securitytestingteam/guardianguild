@@ -15,6 +15,16 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+  - stage: Prepare_SonarQube_Analysis
+    displayName: 'Prepare SonarQube Analysis Task'
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: '$(gg_sast_sonarqube-endpoint)'
+        scannerMode: 'CLI'                                                         # Standalone scanner
+        configMode: 'manial'
+        cliProjectKey: '$(gg_sast_sonarqube-cliprojectkey)'                        # ProjectKey
+        cliProjectName: '$(gg_sast_sonarqube-cliprojectname)'                      # ProjectName
+        cliSources: '$(gg_sast_sonarqube-clisources)'                              # Path to root directory
   - stage: Install_NodeJS
     displayName: 'Install NodeJS'
     condition: succeeded()
@@ -36,7 +46,20 @@ stages:
           - checkout: self
             persistCredentials: true
             fetchDepth: 0
-          - task: Npm@1
-            inputs:
-              command: 'install'
-              arguments: '--no-audit'
+  - stage: Run_Code_Analysis_And_Publish
+    displayName: 'Analyse Code And Publish'
+    jobs:
+      - job: SonarAnalyse
+        - task: SonarQubeAnalyze@5                                                  # Run Code Analysis after Checkout
+          inputs:
+            jdkversion: 'JAVA_HOME_17_x64'
+      - job: SonarPublish
+        - task: SonarQubePublish@5                                                  # Publish Quality Gate Result
+          inputs:
+            pollingTimeoutSec: '300'
+  - stage: Install_Dependencies
+    displayName: 'Install Node Dependencies'
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        arguments: '--no-audit'
