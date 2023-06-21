@@ -30,7 +30,6 @@ stages:
     jobs:
       - job: Checkout
         displayName: 'Checkout'
-        condition: succeeded()
         steps:
           - checkout: none
           - checkout: self
