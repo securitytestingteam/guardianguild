@@ -27,7 +27,6 @@ stages:
               versionSpec: '10.x'
   - stage: Checkout_and_Install
     displayName: 'Checkout and Install'
-    condition: succeeded()
     jobs:
       - job: Checkout
         displayName: 'Checkout'
