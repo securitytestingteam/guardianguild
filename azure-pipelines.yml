@@ -38,7 +38,10 @@ stages:
             fetchDepth: 0
   - stage: Install_Dependencies
     displayName: 'Install Node Dependencies'
-    - task: Npm@1
-      inputs:
-        command: 'install'
-        arguments: '--no-audit'
+    jobs:
+      - job: Install
+        displayName: 'Install'
+        steps:
+          - task: Npm@1
+            inputs:
+              command: 'install'
