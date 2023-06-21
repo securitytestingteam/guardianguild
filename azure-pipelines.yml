@@ -3,19 +3,40 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+name: general-ci
+
+variables:
+  - group: SonarQube
+
 trigger:
 - main
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    echo "Compiling Code"
-    echo "Compilation Complete!"
-  displayName: 'Compiling!'
+stages:
+  - stage: Install_NodeJS
+    displayName: 'Install NodeJS'
+    condition: succeeded()
+    jobs:
+      - job: Install_Node
+        displayName: 'Install Node'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '10.x'
+  - stage: Checkout_and_Install
+    displayName: 'Checkout and Install'
+    condition: succeeded()
+    jobs:
+      - job: Checkout
+        displayName: 'Checkout'
+        condition: succeeded()
+        steps:
+          - checkout: self
+            persistCredentials: true
+            fetchDepth: 0
+          - task: Npm@1
+            inputs:
+              command: 'install'
+              arguments: '--no-audit'
