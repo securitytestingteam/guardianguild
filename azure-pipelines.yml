@@ -15,16 +15,6 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: Prepare_SonarQube_Analysis
-    displayName: 'Prepare SonarQube Analysis Task'
-    - task: SonarQubePrepare@5
-      inputs:
-        SonarQube: '$(gg_sast_sonarqube-endpoint)'
-        scannerMode: 'CLI'                                                         # Standalone scanner
-        configMode: 'manial'
-        cliProjectKey: '$(gg_sast_sonarqube-cliprojectkey)'                        # ProjectKey
-        cliProjectName: '$(gg_sast_sonarqube-cliprojectname)'                      # ProjectName
-        cliSources: '$(gg_sast_sonarqube-clisources)'                              # Path to root directory
   - stage: Install_NodeJS
     displayName: 'Install NodeJS'
     condition: succeeded()
