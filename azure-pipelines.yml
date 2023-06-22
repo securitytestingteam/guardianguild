@@ -13,6 +13,7 @@ stages:
       - job: environment
         pool:
           vmImage: $(poolvmImage)
+      - job: GitCheckout
         steps:
           - checkout: self
             clean: "true"
