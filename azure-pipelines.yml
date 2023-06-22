@@ -36,7 +36,6 @@ stages:
       - job: SonarQube
         displayName: 'Sonarqube'
         steps:
-          - ${{ if eq(variables['gg_sast_sonarqube'], 'true')}}:
           - task: SonarQubePrepare@5
             displayName: '(Auto SAST) SonarQubePrepare'
             inputs:
