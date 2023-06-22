@@ -28,7 +28,7 @@ stages:
   - stage: Checkout_and_Install
     displayName: 'Checkout'
     jobs:
-      - job: Git-Checkout
+      - job: GitCheckout
         displayName: 'Repository Checkout'
         steps:
           - checkout: self
