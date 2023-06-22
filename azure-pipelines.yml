@@ -15,8 +15,9 @@ stages:
           vmImage: $(poolvmImage)
       - job: GitCheckout
         steps:
-          - checkout: self
-            clean: "true"
-          - task: Npm@1
-            inputs:
-              command: "install"
+        - checkout: self
+      - job: NpmInstall
+        steps:
+        - task: Npm@1
+          inputs:
+            command: "install"
