@@ -9,10 +9,10 @@ stages:
     jobs:
       - job: environment
         pool:
-          vmImage: "$(poolvmImage)"
+          vmImage: '$(poolvmImage)'
         steps:
           - checkout: self
             clean: "true"
           - task: Npm@1
             inputs:
-              command: "install"
+              command: 'install'
