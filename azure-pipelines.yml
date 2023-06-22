@@ -4,7 +4,7 @@ trigger:
   - main
 
 stages:
-  - stage: CODE-QUALITY-CHECK
+  - stage: CODE_QUALITY_CHECK
     displayName: "Code Quality Check"
     jobs:
       - job: environment
