@@ -3,6 +3,9 @@ name: genreal-ci
 trigger:
   - main
 
+variables:
+  - group: SonarQube
+
 stages:
   - stage: CODE_QUALITY_CHECK
     displayName: "Code Quality Check"
@@ -15,4 +18,4 @@ stages:
             clean: "true"
           - task: Npm@1
             inputs:
-              command: 'install'
+              command: "install"
