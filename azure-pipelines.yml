@@ -33,20 +33,6 @@ stages:
         steps:
           - checkout: self
             fetchDepth: 0
-      - job: SonarQubePrepare
-        steps:
-          - task: SonarQubePrepare@5
-            displayName: '(Auto SAST) SonarQubePrepare'
-            inputs:
-              SonarQube: '$(gg_sast_sonarqube_endpoint)'
-              scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: '$(gg_sast_sonarqube-cliprojectkey)'
-              cliProjectName: '$(gg_sast_sonarqube-cliprojectname)'
-              cliProjectVersion: '1.0'
-              cliSources: '$(gg_sast_sonarqube-clisources)'
-          - task: SonarQubeAnalyze@5
-          - task: SonarQubePublish@5
   - stage: Install_Dependencies
     displayName: 'Install Node Dependencies'
     jobs:
