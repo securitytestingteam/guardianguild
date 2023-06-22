@@ -26,10 +26,10 @@ stages:
             inputs:
               versionSpec: '10.x'
   - stage: Checkout_and_Install
-    displayName: 'Checkout and Install'
+    displayName: 'Checkout'
     jobs:
-      - job: Checkout
-        displayName: 'Checkout'
+      - job: Git-Checkout
+        displayName: 'Repository Checkout'
         steps:
           - checkout: self
             fetchDepth: 0
