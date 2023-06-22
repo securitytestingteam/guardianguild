@@ -33,6 +33,25 @@ stages:
         steps:
           - checkout: self
             fetchDepth: 0
+      - job: SonarQube
+        displayName: 'Sonarqube'
+        steps:
+          - ${{ if eq(variables['gg_sast_sonarqube'], 'true')}}:
+          - task: SonarQubePrepare@5
+            displayName: '(Auto SAST) SonarQubePrepare'
+            inputs:
+              SonarQube: '$(gg_sast_sonarqube-endpoint)'
+              scannerMode: 'CLI'
+              configMode: 'manual'
+              cliProjectKey: '$(gg_sast_sonarqube-cliprojectkey)'
+              cliProjectName: '$(gg_sast_sonarqube-cliprojectname)'
+              cliProjectVersion: '1.0'
+              cliSources: '$(gg_sast_sonarqube-clisources)'
+          - task: SonarQubeAnalyze@5
+            displayName: '(Auto SAST) SonarQubeAnalyze'
+          - task: SonarQubePublish@5
+            displayName: '(Auto SAST) SonarQubePublish'
+        
   - stage: Install_Dependencies
     displayName: 'Install Node Dependencies'
     jobs:
